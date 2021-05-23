@@ -1,0 +1,64 @@
+html{
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, weathericons;
+  display: inline-block;
+  margin: 0px auto;
+  text-align: center;
+  color: blueviolet;
+}
+
+body {
+  background-color: #f1f1f1;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+span {
+  font-size: 2rem;
+}
+
+container {
+  position: relative;
+}
+
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+}
+
+.temp-icon {
+  font-size: 2.0rem;
+  color: red;
+}
+
+.humd-icon {
+  font-size: 2.0rem;
+  color: blueviolet;
+}
+
+.t_unit {
+  font-size: 2.0rem;
+  color: red;
+}
+
+.h_unit {
+  font-size: 2.0rem;
+  color: blue;
+}
+
+.dht-labels {
+  font-size: 1.5rem;
+  vertical-align: middle;
+  padding: 10.px;
+}
+
+.systime {
+  position: absolute;
+  bottom: 0;
+  font-size: small;
+  text-align: center;
+}

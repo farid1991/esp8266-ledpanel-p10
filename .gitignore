@@ -1,0 +1,10 @@
+### VisualStudioCode ###
+.vscode/*
+!.vscode/arduino.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### Arduino build ###
+build/**
