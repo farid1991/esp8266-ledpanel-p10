@@ -1,38 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title id="title">LittleFS Browser: LOCATION</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" rel="stylesheet" href="css/fm.css" />
-    <link type="text/css" rel="stylesheet" href="css/icon.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <link type="text/css" rel="stylesheet" href="css/style-fm.css" />
+    <title id="title__text">LittleFS Browser: LOCATION</title>
 </head>
 
 <body>
-    <h1 id="htext">Index of /</h1>
-    <div id="parentDirLinkBox" style="display:none">
-        <a id="parentDirLink" class="icon up">
-            <span id="parentDirText">[parent directory]</span>
-        </a>
+    <header class="header">
+        <button class="header__button" id="btnNav" type="button">
+        </button>
+        <h1 id="header__text">Index of /</h1>
+    </header>
+
+    <div class="contents">
+        <div id="parentDirLinkBox" style="display:none">
+            <a id="parentDirLink" class="icon up">
+                <span id="parentDirText">[parent directory]</span>
+            </a>
+        </div>
+        <table>
+            <thead>
+                <tr class="table__header" id="theader">
+                    <th id="nameColumnHeader" tabindex=0 role="button">Name</th>
+                    <th id="sizeColumnHeader" class="detailsColumn" tabindex=0 role="button">
+                        Size
+                    </th>
+                    <th id="dateColumnHeader" class="detailsColumn" tabindex=0 role="button">
+                        Date Modified
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table__body" id="tbody">
+            </tbody>
+        </table>
     </div>
-    <table>
-        <thead>
-            <tr class="header" id="theader">
-                <th id="nameColumnHeader" tabindex=0 role="button">Name</th>
-                <th id="sizeColumnHeader" class="detailsColumn" tabindex=0 role="button">
-                    Size
-                </th>
-                <th id="dateColumnHeader" class="detailsColumn" tabindex=0 role="button">
-                    Date Modified
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="tbody">
-        </tbody>
-    </table>
+
     <script src="js/fm.js"></script>
+
 </body>
 
 </html>

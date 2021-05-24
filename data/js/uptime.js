@@ -1,12 +1,15 @@
-setInterval(function () {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var jsonTime = JSON.parse(this.responseText);
-      var upTime = "System uptime: " + jsonTime.d + " Days, " + jsonTime.h + ":" + jsonTime.m + ":" +jsonTime.s;
-      document.getElementById("uptime").innerHTML = upTime;
-    }
-  };
-  xhttp.open("GET", "/uptime", true);
-  xhttp.send();
-}, 1000);
+async function getJsonData() {
+  let res = await fetch('/uptime');
+  let data = await res.json();
+  return data;
+}
+
+function getUptimeData() {
+  const footer__uptime = document.getElementById('uptime');
+  getJsonData().then(data => {
+    let upTime = 'System uptime: ' + data.d + ' Days, ' + data.h + ':' + data.m + ':' + data.s;
+    footer__uptime.innerHTML = upTime;
+  });
+}
+
+setInterval(getUptimeData, 1000);

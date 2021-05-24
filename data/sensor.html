@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style-dht.css" />
+  <title>ESP8266</title>
+</head>
+
+<body>
+  <header class="header">
+    <button class="header__button" id="btnNav" type="button">
+    </button>
+    <h1 id="header__text">DHT Sensor</h1>
+  </header>
+
+  <div class="contents">
+    <div class="cards">
+
+      <div class="card">
+        <div class="items">
+          <div>
+            <img class="icon temperature" src="svg/temperature.svg">
+          </div>
+          <div>
+            <span class="item text">Temperature</span>
+            <span class="item data" id="temperature"></span>
+            <span class="item sign"> &#8451</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="items">
+          <div>
+            <img class="icon humidity" src="svg/humidity.svg">
+          </div>
+          <div>
+            <span class="item text">Humidity</span>
+            <span class="item data" id="humidity"></span>
+            <span class="item sign"> &#37</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="items">
+          <div>
+            <img class="icon heatIndex" src="svg/heat.svg">
+          </div>
+          <div>
+            <span class="item text">Heat index</span>
+            <span class="item data" id="heatindex"></span>
+            <span class="item sign"> &#37</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/dht.js"></script>
+
+</body>
+
+</html>

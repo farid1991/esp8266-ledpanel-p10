@@ -14,11 +14,11 @@ void start_dht_sensor() {
     dht.begin();
 }
 
-void read_sensor() {
+void read_dht_sensor() {
     if (time_elapsed > (TIME_INTERVAL * 2)) {
         temp = dht.readTemperature();
         humd = dht.readHumidity();
-        heatIndex = dht.computeHeatIndex();
+        heatIndex = dht.computeHeatIndex(false);
         time_elapsed = 0;
     }
 }

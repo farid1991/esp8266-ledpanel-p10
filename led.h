@@ -15,7 +15,7 @@
 #include "uptime.h"
 
 // Set Width and Hight to the number of displays you have
-#define WIDTH 3
+#define WIDTH 1
 #define HEIGHT 1
 
 DMDESP Disp(WIDTH, HEIGHT);
@@ -59,7 +59,7 @@ void run_led() {
     }
 
     //Disp.drawText(0, 0, ledconfig.led_msg);  // Show texts
-    runningTexts(0, 96, 40);  // Show running texts
+    runningTexts(0, Disp.width(), 40);  // Show running texts
 }
 
 #endif

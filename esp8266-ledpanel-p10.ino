@@ -27,6 +27,6 @@ void setup() {
 
 void loop() {
     calc_uptime();
-    read_sensor();
+    read_dht_sensor();
     run_led();
 }

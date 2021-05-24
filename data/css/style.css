@@ -1,64 +1,82 @@
-html{
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, weathericons;
-  display: inline-block;
-  margin: 0px auto;
-  text-align: center;
-  color: blueviolet;
-}
-
 body {
-  background-color: #f1f1f1;
+  --header-height: 50px;
+  --primaryColor: #2196f3;
+  
+  margin: var(--header-height) 0 0 0;
+  font-family: sans-serif;
 }
 
-h2 {
-  font-size: 3rem;
-}
-
-span {
-  font-size: 2rem;
-}
-
-container {
-  position: relative;
-}
-
-.vertical-center {
-  min-height: 100%;
-  min-height: 100vh;
-
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  background: var(--primaryColor);
+  color: white;
   display: flex;
   align-items: center;
 }
 
-.temp-icon {
-  font-size: 2.0rem;
-  color: red;
-}
-
-.humd-icon {
-  font-size: 2.0rem;
-  color: blueviolet;
-}
-
-.t_unit {
-  font-size: 2.0rem;
-  color: red;
-}
-
-.h_unit {
-  font-size: 2.0rem;
-  color: blue;
-}
-
-.dht-labels {
-  font-size: 1.5rem;
-  vertical-align: middle;
-  padding: 10.px;
-}
-
-.systime {
-  position: absolute;
-  bottom: 0;
-  font-size: small;
+.header__text {
   text-align: center;
+}
+
+.header__button{
+  width: var(--header-height);
+  flex-shrink: 0;
+  background: none;
+  outline: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.nav__links{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  height: 100vh;
+  width: 250px;
+  background: white;
+  transform: translateX(-250px);
+  transition: transform 0.3s;
+}
+
+.nav--open .nav__links{
+  transform: translateX(0);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  color: #666666;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 12px 15px;
+  background: transform 0.2s;
+}
+
+.contents {
+  margin: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.footer{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background-color: var(--primaryColor);
+  color: white;
+  text-align: left;
+}
+
+.uptime {
+  font-size: 1.0em;
+  text-align: left;
 }

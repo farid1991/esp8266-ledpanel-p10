@@ -1,0 +1,21 @@
+.cards {
+  max-width: 100%;
+  margin: 5;
+}
+
+.card {
+  margin: 10px;
+  background-color: white;
+  box-shadow: 2px 2px 12px 1px rgba(140, 140, 140, 0.5);
+}
+
+.items {
+  padding: 20px;
+  text-align: center;
+  font-size: 1.8em; 
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+}

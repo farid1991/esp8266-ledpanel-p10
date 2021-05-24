@@ -1,29 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link type="text/css" rel="stylesheet" href="css/style.css" />
-    <title>404 Error Page</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>ESP8266</title>
 </head>
 
 <body>
     <header class="header">
         <button class="header__button" id="btnNav" type="button">
         </button>
-        <h1 id="header__text">Page Not Be Found</h1>
+        <h1 id="header__text">Settings</h1>
     </header>
 
-    <div class="content">
-        <div>
-            <span>😮</span>
-            <p>Sorry but the page you are looking for does not exist.</p>
-            <a href="./">Back to homepage</a>
-        </div>
+    <div class="contents">
+
     </div>
+
+    <div class="footer">
+        <span id="uptime">System Uptime</span>
+    </div>
+
+    <script src="/js/uptime.js"></script>
+
 </body>
 
 </html>

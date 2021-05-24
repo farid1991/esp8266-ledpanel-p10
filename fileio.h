@@ -8,11 +8,11 @@
 #define SSID_LEN 32
 #define PASS_LEN 32
 #define IP_MAX_LEN 16
+#define DEFAULT_BRIGHTNESS 1024
 
 #define CONFIG_IP "/configs/ip.json"
 #define CONFIG_LED "/configs/led.json"
 #define CONFIG_WIFI "/configs/wifi.json"
-#define CONFIG_BRIGHT "/configs/bright.json"
 
 #define default_ssid "esp8266"
 #define default_pass "12345678"
@@ -22,6 +22,12 @@
 #define default_subnet "255.255.255.0"
 
 #define PRINT_SERIAL_LINE Serial.println(F("------------------------------------------------"))
+
+enum {
+    INTEGER_VALUE,
+    FLOAT_VALUE,
+    STRING_VALUE
+};
 
 typedef struct _Config {
     char ssid[SSID_LEN];
@@ -160,33 +166,6 @@ void load_wifi_config() {
             sizeof(config.pass));             // <- destination's capacity
 }
 
-void save_wifi_config(String new_ssid, String new_password) {
-    const char* path = CONFIG_WIFI;
-
-    PRINT_SERIAL_LINE;
-    Serial.printf(PSTR("[INFO] Writing file: %s\n"), path);
-
-    File config_file;
-    config_file = LittleFS.open(path, "r");
-    if (!config_file) {
-        Serial.println(F("[ERROR] Failed to open file for writing"));
-        return;
-    }
-
-    DynamicJsonDocument json_doc(2048);
-    deserializeJson(json_doc, config_file);
-    config_file.close();
-
-    json_doc["ssid"] = new_ssid;
-    json_doc["pass"] = new_password;
-
-    config_file = LittleFS.open(path, "w");
-    serializeJsonPretty(json_doc, config_file);
-    config_file.close();
-    Serial.println(F("CONFIG_WIFI saved"));
-    PRINT_SERIAL_LINE;
-}
-
 void load_led_config() {
     String json_buff = read_file(CONFIG_LED);
 
@@ -200,20 +179,12 @@ void load_led_config() {
             json_doc["message"] | "==ESP8266==",  // <- source
             sizeof(ledConfig.led_msg));           // <- destination's capacity
 
-    json_buff = read_file(CONFIG_BRIGHT);
-    error = deserializeJson(json_doc, json_buff);
-    if (error)
-        Serial.println(F("[ERROR] Failed to read file, using default configuration"));
-
-    ledConfig.led_bright = isnan(json_doc["brightness"]) ? 20 : json_doc["brightness"];
-    //if (isnan(led_bright)) ledConfig.led_bright = 20;
+    ledConfig.led_bright = isnan(json_doc["brightness"]) ? DEFAULT_BRIGHTNESS : json_doc["brightness"];
 
     Serial.println("LED Brightness: " + String(ledConfig.led_bright));
 }
 
-void save_led_config(String message) {
-    const char* path = CONFIG_LED;
-
+void save_to_json(const char* path, String key, String value, char type) {
     PRINT_SERIAL_LINE;
     Serial.printf(PSTR("[INFO] Writing file: %s\n"), path);
 
@@ -228,12 +199,36 @@ void save_led_config(String message) {
     deserializeJson(json_doc, config_file);
     config_file.close();
 
-    json_doc["message"] = message;
+    switch (type) {
+        case INTEGER_VALUE:
+            json_doc[key] = value.toInt();
+            break;
+        case FLOAT_VALUE:
+            json_doc[key] = value.toFloat();
+            break;
+        case STRING_VALUE:
+        default:
+            json_doc[key] = value;
+            break;
+    }
+
     config_file = LittleFS.open(path, "w");
     serializeJsonPretty(json_doc, config_file);
     config_file.close();
-    Serial.println(F("CONFIG_LED saved"));
+    Serial.println(F("CONFIG saved"));
     PRINT_SERIAL_LINE;
+}
+
+void save_config(const char* path, String key, String value) {
+    save_to_json(path, key, value, STRING_VALUE);
+}
+
+void save_config(const char* path, String key, int value) {
+    save_to_json(path, key, String(value), INTEGER_VALUE);
+}
+
+void save_config(const char* path, String key, float value) {
+    save_to_json(path, key, String(value), FLOAT_VALUE);
 }
 
 #endif

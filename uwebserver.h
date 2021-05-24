@@ -72,6 +72,12 @@ void handle_get_from_fs(AsyncWebServerRequest* request) {
     }
 }
 
+void handle_get_sensorpage(AsyncWebServerRequest* request) {
+    log_access(request);
+    AsyncWebServerResponse* response = request->beginResponse(LittleFS, "/sensor.html", FPSTR(TEXT_HTML));
+    request->send(response);
+}
+
 void handle_get_sensordata(AsyncWebServerRequest* request) {
     log_access(request);
     String response = "";
@@ -176,7 +182,7 @@ void webserver_post_led(AsyncWebServerRequest* request, uint8_t* data) {
             json_resp["status"] = F("error");
             json_resp["message"] = F("Message can not be blank");
         } else if (new_message.length() < MSG_LEN) {
-            save_led_config(new_message);
+            save_config(CONFIG_LED, "message", new_message);
             load_led_config();
 
             json_resp["status"] = F("done");
@@ -185,6 +191,14 @@ void webserver_post_led(AsyncWebServerRequest* request, uint8_t* data) {
             json_resp["status"] = F("error");
             json_resp["message"] = F("Message too long(>64), JSON not saved");
         }
+    } else if (json_data.containsKey("brightness")) {
+        int new_brightness = json_data["brightness"];
+
+        save_config(CONFIG_LED, "brightness", new_brightness);
+        load_led_config();
+
+        json_resp["status"] = F("done");
+        json_resp["message"] = F("Message received, JSON saved");
     } else {
         json_resp["status"] = F("error");
         json_resp["message"] = F("invalid key, JSON not saved'");
@@ -192,8 +206,6 @@ void webserver_post_led(AsyncWebServerRequest* request, uint8_t* data) {
     serializeJsonPretty(json_resp, response);
     request->send_P(200, FPSTR(APP_JSON), response.c_str());
 }
-
-//========================================================================================
 
 void handle_get_sysinfo(AsyncWebServerRequest* request) {
     log_access(request);
@@ -254,8 +266,6 @@ void handle_get_uptime(AsyncWebServerRequest* request) {
     request->send_P(200, FPSTR(APP_JSON), response.c_str());
 }
 
-//========================================================================================
-
 void handle_notfound(AsyncWebServerRequest* request) {
     log_access(request);
     AsyncWebServerResponse* response = request->beginResponse(LittleFS, "/404.html", FPSTR(TEXT_HTML));
@@ -310,8 +320,8 @@ void webserver_post_wifi(AsyncWebServerRequest* request, uint8_t* data) {
             json_resp["status"] = F("done");
             json_resp["message"] = F("New SSID & Password saved");
             Serial.println(new_ssid + " " + new_pass);
-
-            save_wifi_config(new_ssid, new_pass);
+            save_config(CONFIG_WIFI, "ssid", new_ssid);
+            save_config(CONFIG_WIFI, "pass", new_pass);
             load_wifi_config();
             restart_wifi();
         }
@@ -349,11 +359,10 @@ void handle_post_request(AsyncWebServerRequest* request, uint8_t* data, size_t l
     }
 }
 
-//========================================================================================
-
 void server_routing() {
     server.on("/404", HTTP_GET, handle_notfound);
     server.on("/dht", HTTP_GET, handle_get_sensordata);
+    server.on("/sensor", HTTP_GET, handle_get_sensorpage);
     server.on("/fm", HTTP_GET, handle_get_filemanager);
     server.on("/fs", HTTP_GET, handle_get_fs_data);
     server.on("/system", HTTP_GET, handle_get_sysinfo);
