@@ -169,36 +169,31 @@ void webserver_post_led(AsyncWebServerRequest* request, uint8_t* data) {
     DeserializationError error = deserializeJson(json_data, data);
     if (error) {
         Serial.printf("[ERROR]: %d\n", error);
-        json_resp[F("error")] = true;
+        json_resp["status"] = F("error");
         json_resp["message"] = F("'Could not parse JSON");
         serializeJsonPretty(json_resp, response);
         request->send_P(200, FPSTR(APP_JSON), response.c_str());
         return;
     }
 
-    if (json_data.containsKey("message")) {
+    if (json_data.containsKey("brightness") && json_data.containsKey("message")) {
         String new_message = json_data["message"];
+        int new_brightness = json_data["brightness"];
+
         if (!new_message.length()) {
             json_resp["status"] = F("error");
             json_resp["message"] = F("Message can not be blank");
         } else if (new_message.length() < MSG_LEN) {
+            save_config(CONFIG_LED, "brightness", new_brightness);
             save_config(CONFIG_LED, "message", new_message);
             load_led_config();
 
             json_resp["status"] = F("done");
-            json_resp["message"] = F("Message received, JSON saved");
+            json_resp["message"] = F("Message received, Config saved");
         } else {
             json_resp["status"] = F("error");
-            json_resp["message"] = F("Message too long(>64), JSON not saved");
+            json_resp["message"] = F("Message too long(>64), Config not saved");
         }
-    } else if (json_data.containsKey("brightness")) {
-        int new_brightness = json_data["brightness"];
-
-        save_config(CONFIG_LED, "brightness", new_brightness);
-        load_led_config();
-
-        json_resp["status"] = F("done");
-        json_resp["message"] = F("Message received, JSON saved");
     } else {
         json_resp["status"] = F("error");
         json_resp["message"] = F("invalid key, JSON not saved'");
